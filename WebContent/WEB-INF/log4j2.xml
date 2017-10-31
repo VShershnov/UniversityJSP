@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration monitorInterval="3">
+	<Properties>
+		<Property name="log-path">logs</Property>
+	</Properties>
+
+	<appenders>
+		<Console name="console-log" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{ABSOLUTE} [%-5p] (%F:%L) - %m%n" />
+		</Console>
+
+		<RollingFile name="trace-log" fileName="${log-path}/trace.log"
+			filePattern="${log-path}/trace-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="%d{ISO8601} [%-5p] (%24.24F:%4.4L) - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+
+		<RollingFile name="error-log" fileName="${log-path}/error.log"
+			filePattern="${log-path}/info-error-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="%d{ISO8601} [%-5p] (%24.24F:%4.4L) - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+	</appenders>
+
+	<loggers>
+		<Logger name="com.foxminded.UniversityJSP" level="debug" additivity="false">
+			<appender-ref ref="trace-log" level="trace" />
+			<appender-ref ref="error-log" level="error" />
+			<appender-ref ref="console-log" level="info" />
+		</Logger>
+
+		<root level="info" additivity="false">
+			<appender-ref ref="console-log" />
+		</root>
+	</loggers>
+
+</configuration>
